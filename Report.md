@@ -9,33 +9,41 @@ During the training, the target Actor and Critic networks are updated periodical
 The agent utilizes the Deep Deterministic Policy Gradient (DDPG).
 
 ## Hyperparameters
+
 BATCH_SIZE = 64
+
 TAU = 0.01
+
 UPDATE_EVERY = 10
+
 N_LEARNING = 4
 
 Learning rates for the Actor and Critic are given by 
+
 LR_ACTOR = 5e-4
+
 LR_CRITIC = 5e-4
 
 Here are parameters of Ornstein–Uhlenbeck noise process.
+
 THETA = 0.01
+
 SIGMA = 0.005
 
 
 ## Architecture
 The Actor network consists of an input layer, two hidden layers (FC1 and FC2), and one output layer. Fully connected layers were used with leakyReLU activation function with a negative slope of 0.2. Batch normalization is applied between FC1 and FC2.
-FC1 and FC2 layers includes 256 and 512 nodes, respectively.
+FC1 and FC2 layers includes 256 and 512 nodes, respectively. The activation function of the output layer is hyperbolic-tangent. 
 
 ![figure of architecture](https://github.com/hurxx018/Udacity_Continuous_Control/blob/master/images/Actor.png)
 
-The Critic network consists of an input layer of state space and action space, three hidden layers, and one output layer. Action space is concatenaed to the output of the first hidden layer denoted by FCS1 with 128 nodes. The next two hidden layers have 128 and 64 nodes respectively. LeakyReLu was used as activation function with a negative slope of 0.2
+The Critic network consists of an input layer of state space and action space, three hidden layers, and one output layer. Action space is concatenated to the output of the first hidden layer denoted by FCS1 with 128 nodes. The next two hidden layers have 128 and 64 nodes respectively. LeakyReLu was used as activation function with a negative slope of 0.2
 
 ![figure of architecture](https://github.com/hurxx018/Udacity_Continuous_Control/blob/master/images/Critic.png)
 
 
 ## Results
-This is a trace of mean values of 100 consecutive scores. The agent achieves the goal after running ~290 episodes. The initial stage of learning is steep and the learning phase becomes slow down. 
+This is a trace of mean values of 100 consecutive scores. The agent achieves the goal after running ~290 episodes. The initial stage of learning is slow to achieve about 5 during the first 100 episodes. The leaning becomes steeper during the next 100 episodes. The agent achieve a score of ~37 after 250 episodes. 
 
 ![figure of score](https://github.com/hurxx018/Udacity_Continuous_Control/blob/master/images/score.png)
 
