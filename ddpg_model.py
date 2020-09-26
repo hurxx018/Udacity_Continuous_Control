@@ -48,7 +48,6 @@ class Critic(nn.Module):
         if seed and isinstance(seed, int):
             self.seed = torch.manual_seed(seed)
         self.fcs1 = nn.Linear(state_size, fcs1_units)
-        self.bc1 = nn.BatchNorm1d(fcs1_units, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         self.fc2 = nn.Linear(fcs1_units + action_size, fc2_units)
         self.fc3 = nn.Linear(fc2_units, fc3_units)
         self.fc4 = nn.Linear(fc3_units, 1)
@@ -60,7 +59,7 @@ class Critic(nn.Module):
         state,
         action
         ):
-        xs = self.leaky_relu(self.bc1(self.fcs1(state)))
+        xs = self.leaky_relu(self.fcs1(state))
         x = torch.cat((xs, action), dim=1)
         x = self.leaky_relu(self.fc2(x))
         x = self.leaky_relu(self.fc3(x))

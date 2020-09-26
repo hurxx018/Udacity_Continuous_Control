@@ -146,9 +146,8 @@ class Agent():
         # ---------------------------- update actor ---------------------------- #
         # Compute actor loss
         actions_pred = self.actor_local(states)
-        # self.critic_local.eval()
         actor_loss = -self.critic_local(states, actions_pred).mean()
-        # self.critic_local.train()
+
         # Minimize the loss
         self.actor_optimizer.zero_grad()
         actor_loss.backward()
@@ -193,7 +192,6 @@ class OUNoise:
         """Update internal state and return it as a noise sample."""
         x = self.state
         dx = self.theta * (self.mu - x) + np.random.normal(0, self.sigma, x.shape)
-        #np.asarray([random.gauss(0, self.sigma) for _ in range(len(x))])#self.sigma * np.array([random.random() for i in range(len(x))])
         self.state = x + dx
         return self.state
 
