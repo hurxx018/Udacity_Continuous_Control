@@ -1,27 +1,30 @@
 # Report
 
 ## Implementation
-The agent utilizes a deep deterministic policy gradient (DDPG) algorithm that consists of the Actor and the Critic. The Actor and the Critic are defined by neural networks (See Architectures for the Actor and the Critic below for the details). The agent uses the two actors and the two critics. For the two actors, the one is named by local and the other is called as target. This naming is the same for the two critics. The agent utilizes the target networks to update the local network, which is similar to the Deep Q-network (DQN) algorithm. For a given state, the agent makes a decision by using a local actor. 
+The agent utilizes a Deep Deterministic Policy Gradient (DDPG) algorithm that consists of the Actor and the Critic.  The Actor and the Critic are defined by neural networks (See Architectures for the Actor and the Critic below for the details).  The agent uses the two actors and the two critics. For the two actors, the one is named by local and the other is called as target.  This naming is the same for the two critics.  The agent utilizes the target networks to update the local network, which is similar to the Deep Q-network (DQN) algorithm.  For a given state, the agent makes a decision of action by using its local actor to interact with the Reacher environment. 
 
 ![Figure of Perception-Action Cycle for the DDPG Agent](https://github.com/hurxx018/Udacity_Continuous_Control/blob/master/images/DDPG_Agent_percetion_action_cycles.png)
+
+## Learning Algorithm
+The agent includes local and target actors and local and target critics.  Each experience is stored as a tuple of state, action, reward, next state, and done in the replay buffer.  The agent samples previous experiences of BATCH_SIZE from the replay buffer at the learning stage.  The learning stage occurs periodically.  The periodicity is defined by a parameter UPDATE_EVERY.  At each learning stage, the learning repeats N_LEARNING times.  (BATCH_SIZE, UPDATE_EVERY, and N_LEARNING are defined in ddpg_agent.py.)
+
+The local actor and critic are updated through the optimization with two Adam optimizers.  The one optimizer is used for the actor and the other is for the critic.  The local critic estimates the Q-value of a given state and action pair.  This estimated action value is compared with the value obtained from the target critic of the next state and the next action.  The next action values are determined by the target actor for a given next state.  The sum of reward and the discounted Q-value of the target critic from the next state and the next action plays a role of expected the Q value. The error between the estimated Q-value and the expected Q-value is used to update the parameters of local critic with the mean-squared-error loss.  The target critic is like a model of Q value for the environment and the local critic plays a role of learning Q table for the environment. 
+
+The target actor and critic are updated from the local actor and critic by the soft-update with a parameter of TAU. 
+
+
 
 During the training, the target Actor and Critic networks are updated periodically by employing the experiences stored in the replay buffer or the agent's memory. The replay buffer has a size of 200000. The periodicity is defined by a parameter UPDATE_EVERY in ddpg_agent.py. When the network is updated, the learning is repeated by the number of times given by N_LEARNING. The number of experiences used for the learning is defined by BATCH_SIZE in ddpg_agent.py. 
 
 Two Adam optimizers are used for
 The soft-update strategy is used with TAU. 
 
+
+
+
 During the training, noise is added to the action values.  The noise is modeled by Ornstein–Uhlenbeck noise process with two parameters THETA and SIGMA.  The value of THETA is reduced by a factor DECAY_FACTOR_S at the end of each episode, and SIGMA is also reduced by DECAY_FACTOR_T. THETA and SIGMA are set relatively large at the begin of the training which helps the agent to explore the environment.  The two parameters were reduced to stabilize the decision of action values as the agent accumulates the experiences while passing through multiple episodes.
 
 
-## Learning Algorithm
-The agent utilizes the Deep Deterministic Policy Gradient (DDPG) consisting of the Actor and the Critic. The Actor and the Critic are defined by the neural networks in this project. 
-
-
-
-
-The Actor consists of two fully-connected hidden layers (See the Architecture below for the details) and its outputs are three continuos values between -1 and 1. The Critic includes three fully-connected hidden layers (See the Architecture below) and its output is a single continuous value. The Critic depends on both the state and the output of the Actor and evaluates the decision made by the Actor.
-
-Both the Actor and the Critic are updated by using the two Adam optimizers that are for each network respectively. Learning rates for both of 
 
 ## Summary of Hyperparameters
 This project uses a number of experiences given by 
