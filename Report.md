@@ -10,46 +10,22 @@ The agent includes local and target actors and local and target critics.  Each e
 
 The local actor and critic are updated through the optimization with two Adam optimizers.  The one optimizer is used for the actor and the other is for the critic.  The local critic estimates the Q-value of a given state and action pair.  This estimated action value is compared with the value obtained from the target critic of the next state and the next action.  The next action values are determined by the target actor for a given next state.  The sum of reward and the discounted Q-value of the target critic from the next state and the next action plays a role of expected the Q value. The error between the estimated Q-value and the expected Q-value is used to update the parameters of local critic with the mean-squared-error loss.  The target critic is like a model of Q value for the environment and the local critic plays a role of learning Q table for the environment. 
 
-The target actor and critic are updated from the local actor and critic by the soft-update with a parameter of TAU. 
+The local critic evaluates the local actor by calculating the Q-value for a state and an action determined by the local actor.  The optimizer updates the parameters of the local actor in a direction of increasing the Q-values given by the local critic. 
 
-
-
-During the training, the target Actor and Critic networks are updated periodically by employing the experiences stored in the replay buffer or the agent's memory. The replay buffer has a size of 200000. The periodicity is defined by a parameter UPDATE_EVERY in ddpg_agent.py. When the network is updated, the learning is repeated by the number of times given by N_LEARNING. The number of experiences used for the learning is defined by BATCH_SIZE in ddpg_agent.py. 
-
-Two Adam optimizers are used for
-The soft-update strategy is used with TAU. 
-
-
-
+Once updating the local actor and critic, the target actor and critic are updated from the local actor and critic by the soft-update with a parameter of TAU. The TAU is a weight factor for the local parameters on averaging the local parameters and the target parameters for the target actor and critic. 
 
 During the training, noise is added to the action values.  The noise is modeled by Ornstein–Uhlenbeck noise process with two parameters THETA and SIGMA.  The value of THETA is reduced by a factor DECAY_FACTOR_S at the end of each episode, and SIGMA is also reduced by DECAY_FACTOR_T. THETA and SIGMA are set relatively large at the begin of the training which helps the agent to explore the environment.  The two parameters were reduced to stabilize the decision of action values as the agent accumulates the experiences while passing through multiple episodes.
 
-
-
 ## Summary of Hyperparameters
-This project uses a number of experiences given by 
+This project uses a number of experiences given by BATCH_SIZE = 64.
 
-BATCH_SIZE = 64
+The parameters of the Actor and the Critic are updated by the soft-update with a fraction given by TAU = 0.01
 
-and the parameters of the Actor and the Critic are updated by the soft-update with a fraction given by 
+Here are the parameters of the learning periodicity and the repetition: UPDATE_EVERY = 10 and N_LEARNING = 4
 
-TAU = 0.01
+Learning rates for the Actor and Critic are given by LR_ACTOR = 5e-4 and LR_CRITIC = 5e-4, respectively.
 
-UPDATE_EVERY = 10
-
-N_LEARNING = 4
-
-Learning rates for the Actor and Critic are given by 
-
-LR_ACTOR = 5e-4
-
-LR_CRITIC = 5e-4
-
-Here are parameters of Ornstein–Uhlenbeck noise process.
-
-THETA = 0.01
-
-SIGMA = 0.005
+Here are parameters of Ornstein–Uhlenbeck noise process: THETA = 0.01 and SIGMA = 0.005
 
 
 ## Architectures for the Actor and the Critic
