@@ -3,7 +3,7 @@
 ## Implementation
 The agent utilizes a deep deterministic policy gradient (DDPG) algorithm that consists of the Actor and the Critic. The Actor and the Critic are defined by neural networks (See Architectures for the Actor and the Critic below for the details). The agent uses the two actors and the two critics. For the two actors, the one is named by local and the other is called as target. This naming is the same for the two critics. The agent utilizes the target networks to update the local network, which is similar to the Deep Q-network (DQN) algorithm. For a given state, the agent makes a decision by using a local actor. 
 
-![Figure of Perception-Action Cycle for the DDPG Agent][.\images\Actor.png]
+![Figure of Perception-Action Cycle for the DDPG Agent][https://github.com/hurxx018/Udacity_Continuous_Control/blob/master/images/DDPG_Agent_percetion_action_cycles.png]
 
 During the training, the target Actor and Critic networks are updated periodically by employing the experiences stored in the replay buffer or the agent's memory. The replay buffer has a size of 200000. The periodicity is defined by a parameter UPDATE_EVERY in ddpg_agent.py. When the network is updated, the learning is repeated by the number of times given by N_LEARNING. The number of experiences used for the learning is defined by BATCH_SIZE in ddpg_agent.py. 
 
