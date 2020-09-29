@@ -14,6 +14,8 @@ The local critic evaluates the local actor by calculating the Q-value for a stat
 
 Once updating the local actor and critic, the target actor and critic are updated from the local actor and critic by the soft-update with a parameter of TAU. The TAU is a weight factor for the local parameters on averaging the local parameters and the target parameters for the target actor and critic. 
 
+![Figure of Learning Process for the DDPG Agent](https://github.com/hurxx018/Udacity_Continuous_Control/blob/master/images/DDPG_learning_process.png)
+
 During the training, noise is added to the action values.  The noise is modeled by Ornstein–Uhlenbeck noise process with two parameters THETA and SIGMA.  The value of THETA is reduced by a factor DECAY_FACTOR_S at the end of each episode, and SIGMA is also reduced by DECAY_FACTOR_T. THETA and SIGMA are set relatively large at the begin of the training which helps the agent to explore the environment.  The two parameters were reduced to stabilize the decision of action values as the agent accumulates the experiences while passing through multiple episodes.
 
 ## Summary of Hyperparameters
@@ -25,15 +27,15 @@ Here are the parameters of the learning periodicity and the repetition: UPDATE_E
 
 Learning rates for the Actor and Critic are given by LR_ACTOR = 5e-4 and LR_CRITIC = 5e-4, respectively.
 
-Here are parameters of Ornstein–Uhlenbeck noise process: THETA = 0.01 and SIGMA = 0.005
+Here are parameters of Ornstein–Uhlenbeck noise process: THETA = 0.01, SIGMA = 0.005, DECAY_FACTOR_S = 0.999, and DECAY_FACTOR_S = 0.999
 
 
 ## Architectures for the Actor and the Critic
-The Actor network consists of an input layer, two hidden layers (FC1 and FC2), and one output layer.  Fully connected layers are used with leakyReLU activation function with a negative slope of 0.2.  Batch normalization (BN1) is applied to the output of the layer FC1.  The FC1 and FC2 layers include 256 and 512 nodes, respectively.  The activation function of the output layer is hyperbolic-tangent that ensures the output values of the range from -1 to 1. 
+The Actor network consists of an input layer, two hidden layers (FC1 and FC2), and one output layer.  The FC1 and FC2 layers include 256 and 512 nodes, respectively.  They are used with leakyReLU activation function with a negative slope of 0.2.  Batch normalization (BN1) is applied to the output of the layer FC1.  The activation function of the output layer is hyperbolic-tangent that ensures the output values of the range from -1 to 1. 
 
 ![Figure of Actor architecture](https://github.com/hurxx018/Udacity_Continuous_Control/blob/master/images/Actor.png)
 
-The Critic network includes an input layer, three hidden layers (FCS1, FC2, FC3), and one output layer.  The input layer has 33 nodes for state space. 
+The Critic network includes an input layer, three hidden layers (FCS1, FC2, FC3), and an output layer.  The state space of 33 variables is converted  to a layer of 128 nodes with the relu activation. input layer has 33 nodes for state space that are activated by leaky relu with a negative slope of 0.2. The output of the input layer is concatenated with the action values, that is the 
 
  
  Action space is concatenated to the output of the first hidden layer denoted by FCS1 with 128 nodes. The next two hidden layers have 128 and 64 nodes respectively. LeakyReLu was used as activation function with a negative slope of 0.2
