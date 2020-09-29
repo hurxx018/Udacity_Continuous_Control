@@ -35,10 +35,7 @@ The Actor network consists of an input layer, two hidden layers (FC1 and FC2), a
 
 ![Figure of Actor architecture](https://github.com/hurxx018/Udacity_Continuous_Control/blob/master/images/Actor.png)
 
-The Critic network includes an input layer, three hidden layers (FCS1, FC2, FC3), and an output layer.  The state space of 33 variables is converted  to a layer of 128 nodes with the relu activation. input layer has 33 nodes for state space that are activated by leaky relu with a negative slope of 0.2. The output of the input layer is concatenated with the action values, that is the 
-
- 
- Action space is concatenated to the output of the first hidden layer denoted by FCS1 with 128 nodes. The next two hidden layers have 128 and 64 nodes respectively. LeakyReLu was used as activation function with a negative slope of 0.2
+The Critic network includes an input layer, three hidden layers (FCS1, FC2, FC3), and an output layer.  The state space of 33 variables is converted to a layer of 128 nodes with the relu activation. input layer has 33 nodes for state space that are activated by leaky relu with a negative slope of 0.2. The output of the input layer is concatenated with the action values, that is denoted by FCS1. The next two hidden layers were used to calculate the state-action value with the leaky relu activatoin. 
 
 ![Figure of Critic architecture](https://github.com/hurxx018/Udacity_Continuous_Control/blob/master/images/Critic.png)
 
@@ -50,4 +47,4 @@ This is a trace of mean values of 100 consecutive scores. The agent achieves the
 
 
 ## Future Work
-This work needs to be improved with the implementation of prioritized experience replay.
+One of the difficulties in this project was to find out proper hyper-parameters for controlling the noise level added to the action during the training. The current approach was to search the hyper-parameters manually through the process of trial-and-error. It would be good to determine these hyper-parameters systematically. 
