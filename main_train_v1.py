@@ -63,7 +63,7 @@ def train_ddpg_v1(
 def main():
 
     # load version 1 (with 1 agent) of the environment
-    env_name = "" # Add the Unity Reacher Environment name
+    env_name = "Reacher_Windows_x86_64_version1\Reacher.exe" # Add the Unity Reacher Environment name
     no_graphics = True
     env = UnityEnvironment(file_name = env_name, no_graphics = no_graphics)
 

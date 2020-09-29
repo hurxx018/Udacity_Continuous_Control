@@ -10,7 +10,7 @@ from ddpg_agent import Agent
 def main():
 
     # load version 2 (with 20 agents) of the environment
-    env_name = "" # add a Unity-Environment name.
+    env_name = "Reacher_Windows_x86_64_version1\Reacher.exe" # add a Unity-Environment name.
     env = UnityEnvironment(file_name = env_name)
 
     # Environments contain **_brains_** which are responsible for deciding the actions of their associated agents. Here we check for the first brain available, and set it as the default brain we will be controlling from Python.
